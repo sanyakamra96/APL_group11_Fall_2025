@@ -1,14 +1,17 @@
 Expense Tracker Application – Design Document
+## 1. Overview
 
-Overview
-The Expense Tracker Application is designed to record, view, filter, and summarize daily expenses. Each expense entry includes a date, amount, category, and description. The program allows users to add new records, filter by date or category, and view total spending summaries.
-The project includes two implementations:
+The Expense Tracker Application is designed to record, view, filter, and summarize daily expenses.
+Each expense entry includes a date, amount, category, and description.
+The program allows users to add new records, filter by date or category, and view total spending summaries.
+
+The project includes two separate implementations:
 
 C++ Implementation (branch: cpp_implementation)
 
 Python Implementation (branch: python_implementation)
 
-Objectives
+## 2. Objectives
 
 Store and manage expense records efficiently.
 
@@ -16,125 +19,139 @@ Provide filtering and search features based on date range or category.
 
 Summarize expenses by category and display total spending.
 
-Demonstrate language-specific features (C++ vs Python).
+Demonstrate language-specific features and design differences between C++ and Python.
 
-Data Model
-Fields:
-
-date: Expense date in ISO format (YYYY-MM-DD)
-
-amount: Expense amount
-
-category: Expense type (Food, Travel, Entertainment, Misc)
-
-description: Brief explanation of the expense
-
-C++ Implementation:
+## 3. Data Model
+Fields
+Field	Description	Example
+date	Expense date in ISO format (YYYY-MM-DD)	2025-10-25
+amount	Expense amount	100
+category	Expense type (Food, Travel, Entertainment, Misc)	Food
+description	Brief explanation of the expense	Lunch at cafe
+C++ Implementation
 
 Uses a struct Expense to define the model.
 
 Categories are represented using an enum.
 
-Data stored in an in-memory vector<Expense>.
+Data is stored in an in-memory std::vector<Expense>.
 
 Data persistence handled with file I/O (ifstream / ofstream).
 
-Python Implementation:
+Python Implementation
 
 Uses a list of dictionaries for dynamic data storage.
 
-Each record is a dictionary with keys: date, amount, category, and description.
+Each record is stored as:
 
-Data persistence achieved using the json module.
+{"date": "YYYY-MM-DD", "amount": 100, "category": "Food", "description": "Lunch"}
 
-Date comparison handled using the datetime library.
 
-Functional Components
-Add Expense – Prompts user for details and stores new record.
-View Expenses – Displays all expenses with details.
-Filter / Search – Filters by date range and/or category.
-Total by Category – Calculates total spent in each category.
-Save to File – Saves all expenses persistently.
-Load from File – Loads previous session data.
+Data persistence is achieved using the json module.
 
-C++ Implementation: struct-based data, STL vector, manual file handling.
-Python Implementation: dictionary-based data, list operations, json-based file handling.
+Date comparison is handled using the datetime library.
 
-Program Flow
+## 4. Functional Components
+```
+| Function              | Description                                      | C++ Implementation           | Python Implementation                    |
+| --------------------- | ------------------------------------------------ | ---------------------------- | ---------------------------------------- |
+| Add Expense         | Prompts user for details and stores a new record | Struct pushed to vector      | Dictionary appended to list              |
+| View Expenses       |  Displays all recorded expenses                   | Loops through vector         | Loops through list                       |
+| Filter / Search     | Filters expenses by date range or category       | String-based date comparison | Uses `datetime` for accurate comparisons |
+| Total by Category   | Calculates total spending by category            | Integer array accumulator    | Dictionary accumulator                   |
+| Save to File        | Saves all expenses persistently                  | Writes to `.txt` file        | Writes to `.json` file                   |
+| Load from File      | Loads previous session data                      | Reads text file              | Loads JSON data                          |
+```
+## 5. Program Flow
+```
 Start
 │
 ├── Load expenses from file
 │
 ├── Display menu:
-│ 1. Add Expense
-│ 2. View Expenses
-│ 3. Filter / Search Expenses
-│ 4. Total by Category
-│ 5. Save & Exit
+│     1. Add Expense
+│     2. View Expenses
+│     3. Filter / Search Expenses
+│     4. Total by Category
+│     5. Save & Exit
 │
 ├── Perform selected action
 │
 ├── Save to file (auto or on exit)
 │
 └── End
+```
+## 6. File Storage Format
+C++ (data/expenses.txt)
 
-File Storage Format
-C++ (data/expenses.txt):
+```
 2025-10-25,50,Food,Lunch
 2025-10-26,100,Travel,Uber ride
-
-Python (expenses.json):
+```
+Python (expenses.json)
+```
 [
-{"date": "2025-10-25", "amount": 50, "category": "Food", "description": "Lunch"},
-{"date": "2025-10-26", "amount": 100, "category": "Travel", "description": "Uber ride"}
+  {"date": "2025-10-25", "amount": 50, "category": "Food", "description": "Lunch"},
+  {"date": "2025-10-26", "amount": 100, "category": "Travel", "description": "Uber ride"}
 ]
+```
 
-Language-Specific Features
+## 7. Language-Specific Features
 C++
 
-Structs and Enums for strong typing
+~~~Structs and enums for strong typing
 
-STL Vector for dynamic storage
+STL vector for dynamic storage
 
 File I/O for persistence
 
-Static typing for compile-time safety
+Static typing ensures compile-time safety
 
-Manual compilation with g++ -std=c++11
-
+Manual compilation using g++ -std=c++11
+~~~
 Python
 
-Dictionaries and Lists for dynamic data
+~~~
+Dictionaries and lists for flexible, dynamic data structures
 
-datetime library for date comparison
+datetime library for date handling
 
 Automatic memory management
 
 Dynamic typing for faster development
 
-Simple file handling using json module
+Simple file operations using json
+~~~
+## 8. Design Decisions
 
-Design Decisions
+ISO date format (YYYY-MM-DD) ensures consistent lexicographic comparison.
 
-ISO date format (YYYY-MM-DD) used for consistent comparison.
+File-based persistence retains user data between sessions.
 
-File-based persistence ensures data retention between sessions.
+Menu-driven CLI provides a consistent user experience across both languages.
 
-Menu-driven CLI ensures a similar experience across both languages.
+The design focuses on simplicity, modularity, and language comparability.
 
-Testing
+## 9. Testing
 
-Hardcoded test files added under the test/ directory.
-
-Tested for:
-
+Testing was performed through both interactive user input and hardcoded test files located in the test/ directory.
+Each implementation was tested for:
+~~~
 Adding new expenses
 
 Displaying all expenses
 
 Filtering by date and category
 
-Calculating totals
+Calculating category totals
+~~~
+## 10. Conclusion
 
-Conclusion
-The design emphasizes simplicity, modularity, and comparability across languages. Both implementations fulfill the same functional requirements while showcasing the contrasting strengths of C++ (performance, structure) and Python (simplicity, flexibility).
+The Expense Tracker Application demonstrates the same functionality implemented in two programming languages — C++ and Python — highlighting differences in syntax, data handling, and design philosophy.
+Both implementations fulfill the project’s requirements while showcasing the unique strengths of each language:
+
+C++: Performance, structure, and static type safety.
+
+Python: Simplicity, readability, and rapid development.
+
+Together, they provide a clear comparative study of how language characteristics influence program design and implementation.
