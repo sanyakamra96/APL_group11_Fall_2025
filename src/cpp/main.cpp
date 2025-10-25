@@ -12,7 +12,7 @@ int main() {
     cout << "1. Add Expense\n";
     cout << "2. View Expenses\n";
     cout << "3. Filter / Search Expenses\n";
-    cout << "4. Total by Category\n";
+    cout << "4. Total by Category and Overall Total\n";
     cout << "5. Save & Exit\n";
     cout << "Choose option: ";
     cin >> choice;
