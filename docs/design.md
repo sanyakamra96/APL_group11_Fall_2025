@@ -99,7 +99,7 @@ Python (expenses.json)
 ## 7. Language-Specific Features
 C++
 
-Structs and enums for strong typing
+~~~Structs and enums for strong typing
 
 STL vector for dynamic storage
 
@@ -108,9 +108,10 @@ File I/O for persistence
 Static typing ensures compile-time safety
 
 Manual compilation using g++ -std=c++11
-
+~~~
 Python
 
+~~~
 Dictionaries and lists for flexible, dynamic data structures
 
 datetime library for date handling
@@ -120,7 +121,7 @@ Automatic memory management
 Dynamic typing for faster development
 
 Simple file operations using json
-
+~~~
 ## 8. Design Decisions
 
 ISO date format (YYYY-MM-DD) ensures consistent lexicographic comparison.
@@ -135,7 +136,7 @@ The design focuses on simplicity, modularity, and language comparability.
 
 Testing was performed through both interactive user input and hardcoded test files located in the test/ directory.
 Each implementation was tested for:
-
+~~~
 Adding new expenses
 
 Displaying all expenses
@@ -143,7 +144,7 @@ Displaying all expenses
 Filtering by date and category
 
 Calculating category totals
-
+~~~
 ## 10. Conclusion
 
 The Expense Tracker Application demonstrates the same functionality implemented in two programming languages — C++ and Python — highlighting differences in syntax, data handling, and design philosophy.
