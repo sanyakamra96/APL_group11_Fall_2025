@@ -143,14 +143,23 @@ void filterAndSearchExpenses() {
   if (!found) cout << "No matching expenses found.\n";
 }
 
-// Calculate total amount per category
+// Calculate total amount per category and overall
 void totalByCategory() {
   int totals[4] = {0};
-  for (const auto& e : expenses) totals[e.category] += e.amount;
+  int overallTotal = 0;
+
+  // Sum per category and overall
+  for (const auto& e : expenses) {
+    totals[e.category] += e.amount;
+    overallTotal += e.amount;
+  }
 
   cout << "\n===== Total by Category =====\n";
   cout << "Food: $" << totals[Food] << endl;
   cout << "Travel: $" << totals[Travel] << endl;
   cout << "Entertainment: $" << totals[Entertainment] << endl;
   cout << "Misc: $" << totals[Misc] << endl;
+
+  cout << "\n===== Overall Total =====\n";
+  cout << "Total Expenses: $" << overallTotal << endl;
 }
