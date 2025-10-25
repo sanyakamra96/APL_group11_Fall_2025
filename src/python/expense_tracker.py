@@ -1,70 +1,166 @@
-import json
+# expense_tracker.py
+# Interactive Expense Tracker (Python)
+# Author: Kajol Makhijani
+# Date: 2025
+
+"""
+Overview:
+A console-based Expense Tracker that allows users to record, view, filter,
+and summarize expenses. Users can filter expenses by date range or category
+and calculate total expenses by category or overall.
+
+Core Requirements:
+- Data storage for expenses with fields: date, amount, category, description
+- Ability to filter/search by date range and category
+- Summary function showing total by category and overall
+
+Python-Specific Features:
+- Uses dictionaries for dynamic data storage
+- Demonstrates Python’s dynamic typing and built-in data structures
+- Uses the 'datetime' library for date manipulation
+"""
+
 from datetime import datetime
+import json
+import os
 
-# In-memory list of expenses
-expenses = []
 
-# Add a new expense
-def add_expense(date, amount, category, description):
-    try:
-        expense = {
-            "date": datetime.strptime(date, "%Y-%m-%d"),
-            "amount": float(amount),
-            "category": category,
-            "description": description
-        }
-        expenses.append(expense)
-        print(f"✅ Expense added: {description} (${amount}) on {date}")
-    except ValueError:
-        print("❌ Invalid input. Please ensure date is YYYY-MM-DD and amount is numeric.")
+class ExpenseTracker:
+    def __init__(self):
+        self.expenses = []
+        self.load_from_file()
 
-# View all expenses
-def view_expenses():
-    if not expenses:
-        print("No expenses recorded.")
-        return
-    print("\nAll Expenses:")
-    for exp in expenses:
-        print(f"{exp['date'].date()} | {exp['category']} | ${exp['amount']:.2f} | {exp['description']}")
+    def add_expense(self, date, amount, category, description):
+        """Add a new expense"""
+        self.expenses.append(
+            {
+                "date": date,
+                "amount": amount,
+                "category": category,
+                "description": description,
+            }
+        )
+        self.save_to_file()
+        print("✅ Expense added and saved successfully!")
 
-# Filter by category
-def filter_by_category(category):
-    filtered = [e for e in expenses if e['category'].lower() == category.lower()]
-    if not filtered:
-        print(f"No expenses found for category '{category}'.")
-    else:
-        for e in filtered:
-            print(f"{e['date'].date()} | {e['category']} | ${e['amount']:.2f} | {e['description']}")
+    def view_expenses(self):
+        """Display all recorded expenses"""
+        if not self.expenses:
+            print("No expenses recorded yet.")
+            return
+        print("\n===== All Expenses =====")
+        for e in self.expenses:
+            print(
+                f"{e['date']} | ${e['amount']} | {e['category']} | {e['description']}"
+            )
 
-# Filter by date range
-def filter_by_date_range(start, end):
-    try:
-        s = datetime.strptime(start, "%Y-%m-%d")
-        e = datetime.strptime(end, "%Y-%m-%d")
-        filtered = [x for x in expenses if s <= x['date'] <= e]
-        for exp in filtered:
-            print(f"{exp['date'].date()} | {exp['category']} | ${exp['amount']:.2f}")
-    except ValueError:
-        print("❌ Invalid date format. Please use YYYY-MM-DD.")
+    def filter_by_category(self, category):
+        """Display expenses filtered by category"""
+        results = [
+            e for e in self.expenses if e["category"].lower() == category.lower()
+        ]
+        if not results:
+            print(f"No expenses found for category: {category}")
+            return
+        print(f"\n===== {category} Expenses =====")
+        for e in results:
+            print(f"{e['date']} | ${e['amount']} | {e['description']}")
 
-# Summarize expenses
-def summarize_expenses():
-    totals = {}
-    for e in expenses:
-        totals[e['category']] = totals.get(e['category'], 0) + e['amount']
-    print("\nSummary by Category:")
-    for cat, amt in totals.items():
-        print(f"{cat}: ${amt:.2f}")
-    print(f"Total Expenses: ${sum(totals.values()):.2f}")
+    def filter_by_date_range(self, start, end):
+        """Display expenses filtered by date range"""
+        fmt = "%Y-%m-%d"
+        results = []
+        for e in self.expenses:
+            d = datetime.strptime(e["date"], fmt)
+            if datetime.strptime(start, fmt) <= d <= datetime.strptime(end, fmt):
+                results.append(e)
+        if not results:
+            print("No expenses found in this date range.")
+            return
+        print(f"\n===== Expenses from {start} to {end} =====")
+        for e in results:
+            print(
+                f"{e['date']} | ${e['amount']} | {e['category']} | {e['description']}"
+            )
 
-# Simple Testing
+    def summary_by_category(self):
+        """Display total spending by category"""
+        totals = {}
+        for e in self.expenses:
+            cat = e["category"]
+            totals[cat] = totals.get(cat, 0) + e["amount"]
+        print("\n===== Total by Category =====")
+        for cat, total in totals.items():
+            print(f"{cat}: ${total:.2f}")
+
+    def total_expenses(self):
+        """Display total of all recorded expenses"""
+        total = sum(e["amount"] for e in self.expenses)
+        print(f"\n===== Overall Total =====\nTotal Expenses: ${total:.2f}")
+
+    def save_to_file(self):
+        """Save expenses to a JSON file"""
+        os.makedirs("data", exist_ok=True)
+        with open("data/expenses.json", "w") as f:
+            json.dump(self.expenses, f, indent=2)
+
+    def load_from_file(self):
+        """Load expenses from JSON file"""
+        try:
+            with open("data/expenses.json", "r") as f:
+                self.expenses = json.load(f)
+        except FileNotFoundError:
+            self.expenses = []
+
+
+def main():
+    tracker = ExpenseTracker()
+
+    while True:
+        print("\n===== Expense Tracker (Python) =====")
+        print("1. Add Expense")
+        print("2. View Expenses")
+        print("3. Filter by Category")
+        print("4. Filter by Date Range")
+        print("5. Summary by Category")
+        print("6. Total Expenses")
+        print("7. Save & Exit")
+
+        choice = input("Choose an option: ")
+
+        if choice == "1":
+            date = input("Enter date (YYYY-MM-DD): ")
+            amount = float(input("Enter amount: "))
+            category = input("Enter category: ")
+            description = input("Enter description: ")
+            tracker.add_expense(date, amount, category, description)
+
+        elif choice == "2":
+            tracker.view_expenses()
+
+        elif choice == "3":
+            category = input("Enter category: ")
+            tracker.filter_by_category(category)
+
+        elif choice == "4":
+            start = input("Enter start date (YYYY-MM-DD): ")
+            end = input("Enter end date (YYYY-MM-DD): ")
+            tracker.filter_by_date_range(start, end)
+
+        elif choice == "5":
+            tracker.summary_by_category()
+
+        elif choice == "6":
+            tracker.total_expenses()
+
+        elif choice == "7":
+            tracker.save_to_file()
+            print("Exiting... Data saved successfully!")
+            break
+
+        else:
+            print("❌ Invalid option. Please try again.")
+
+
 if __name__ == "__main__":
-    add_expense("2025-10-21", 25.50, "Food", "Lunch with team")
-    add_expense("2025-10-22", 40, "Travel", "Uber to office")
-    add_expense("2025-10-23", 15.75, "Food", "Coffee & snack")
-    view_expenses()
-    print("\nFiltered by Category: Food")
-    filter_by_category("Food")
-    print("\nFiltered by Date Range (2025-10-21 to 2025-10-22):")
-    filter_by_date_range("2025-10-21", "2025-10-22")
-    summarize_expenses()
+    main()
