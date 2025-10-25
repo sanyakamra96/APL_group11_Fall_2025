@@ -102,11 +102,11 @@ Misc: $4302
 5. Save & Exit
 Choose option: 5
 Exiting...
-
+```
 ===============
-##Test
+## Test
 ===============
-g++ -I src/cpp tests/test_expense.cpp -o test_expense
+``` g++ -I src/cpp tests/test_expense.cpp -o test_expense
 ./test_expense
 
 Output---->
