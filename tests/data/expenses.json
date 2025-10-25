@@ -1,0 +1,26 @@
+[
+  {
+    "date": "2025-10-01",
+    "amount": 45.5,
+    "category": "Food",
+    "description": "Lunch at Cafe"
+  },
+  {
+    "date": "2025-10-02",
+    "amount": 120.0,
+    "category": "Travel",
+    "description": "Train Ticket"
+  },
+  {
+    "date": "2025-10-04",
+    "amount": 30.0,
+    "category": "Food",
+    "description": "Groceries"
+  },
+  {
+    "date": "2025-10-05",
+    "amount": 60.0,
+    "category": "Entertainment",
+    "description": "Movie night"
+  }
+]
