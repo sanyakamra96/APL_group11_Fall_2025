@@ -26,17 +26,18 @@ Save and load data from file
 ## Repository Structure
 APL_group11_Fall_2025/
 ├── cpp/
-│   ├── main.cpp
-│   ├── expense.cpp
-│   ├── expense.hpp
-│   └── data/expenses.txt
+│ ├── main.cpp
+│ ├── expense.cpp
+│ ├── expense.hpp
+│ └── data/
+│ └── expenses.txt
 ├── python/
-│   └── expense_tracker.py
+│ └── expense_tracker.py
 ├── test/
-│   └── test_expense_tracker.py│   
-    ├── test_expense.cpp
+│ ├── test_expense_tracker.py
+│ └── test_expense.cpp
 └── docs/
-    ├── design.md
+└── design.md
 How to Run (C++)
 cd cpp
 g++ -std=c++11 main.cpp expense.cpp -o expense_app
