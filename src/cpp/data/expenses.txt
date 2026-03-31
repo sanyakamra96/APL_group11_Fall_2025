@@ -1,0 +1,8 @@
+2022-21-21,212,Travel,sanya
+2022-03-23,32,Food,dsd
+2009-21-12,2222,Food,121
+2120-12-12,311,Food,1121
+2011-21-12,2,Food,baba
+2033-31-12,2112,Entertainment,dsada
+2021-21-21,4302,Misc,heyey
+2009-02-21,500,Travel,flight to sf
