@@ -23,6 +23,7 @@ Display total expenses by category
 Save and load data from file
 
 Repository Structure
+```text
 APL_group11_Fall_2025/
 ├── cpp/
 │   ├── main.cpp
