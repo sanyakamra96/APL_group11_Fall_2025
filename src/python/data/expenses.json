@@ -1,0 +1,14 @@
+[
+  {
+    "date": "2002-12-12",
+    "amount": 400.0,
+    "category": "Food",
+    "description": "mcd"
+  },
+  {
+    "date": "2003-01-02",
+    "amount": 300.0,
+    "category": "Travel",
+    "description": "Singapore"
+  }
+]
